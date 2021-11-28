@@ -26,7 +26,7 @@ public class MethodParamUtils {
 
     @SneakyThrows
     private static Object resolveMethodParam(Parameter parameter, SimpleRequest request, String resourcePath) {
-        if (!isValid(parameter) && !HttpMethod.POST.equals(request.getMethod())) {
+        if (!isValid(parameter) && !Arrays.asList(HttpMethod.POST, HttpMethod.PUT).contains(request.getMethod())) {
             throw new InvalidMethodParameterException();
         }
         if (parameter.isAnnotationPresent(PathParam.class)) {
