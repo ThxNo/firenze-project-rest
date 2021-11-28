@@ -1,5 +1,6 @@
 package firenze.project.rest.unitTest;
 
+import com.google.common.collect.ImmutableMap;
 import firenze.project.rest.RestHttpDispatcher;
 import firenze.project.rest.domain.SimpleRequest;
 import firenze.project.rest.domain.SimpleResponse;
@@ -34,7 +35,7 @@ class RestHttpDispatcherTest extends UnitTest {
     @Test
     void should_dispatch_to_user_resource() {
         //given
-        SimpleRequest request = SimpleRequest.builder().method(HttpMethod.POST).path("/users").build();
+        SimpleRequest request = SimpleRequest.builder().method(HttpMethod.GET).path("/users").build();
         //when
         SimpleResponse response = restHttpDispatcher.dispatch(request);
         //then
@@ -65,7 +66,8 @@ class RestHttpDispatcherTest extends UnitTest {
     @Test
     void should_dispatch_with_query_param() {
         //given
-        SimpleRequest request = SimpleRequest.builder().method(HttpMethod.GET).path("/shopping-cart?firstOne=true").build();
+        SimpleRequest request = SimpleRequest.builder().method(HttpMethod.GET).path("/shopping-cart")
+                .queryParams(ImmutableMap.of("firstOne", "true")).build();
         //when
         SimpleResponse response = restHttpDispatcher.dispatch(request);
         //then

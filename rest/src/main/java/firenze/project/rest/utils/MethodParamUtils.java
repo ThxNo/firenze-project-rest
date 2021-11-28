@@ -7,7 +7,6 @@ import jakarta.ws.rs.HttpMethod;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
