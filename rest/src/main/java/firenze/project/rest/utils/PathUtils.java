@@ -2,6 +2,9 @@ package firenze.project.rest.utils;
 
 import firenze.project.rest.exception.NoPathParamMatchedException;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -50,5 +53,22 @@ public class PathUtils {
             }
         }
         throw new NoPathParamMatchedException();
+    }
+
+    public static Map<String, String> toQueryMap(String queryString) {
+        HashMap<String, String> result = new HashMap<>();
+        if (Objects.isNull(queryString) || queryString.isBlank()) {
+            return result;
+        }
+        Arrays.stream(queryString.split("&"))
+                .forEach(it -> {
+                    String[] entryString = it.split("=");
+                    result.put(entryString[0], entryString[1]);
+                });
+        return result;
+    }
+
+    public static String getQueryParam(String paramName, Map<String, String> queryParams) {
+        return queryParams.get(paramName);
     }
 }

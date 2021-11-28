@@ -1,5 +1,6 @@
 package firenze.project.rest.domain;
 
+import firenze.project.rest.utils.PathUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
+
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,7 +21,7 @@ import lombok.ToString;
 public class SimpleRequest {
     private String path;
     private String method;
-    private String queryParams;
+    private Map<String, String> queryParams;
     private Object requestBody;
 
     @SneakyThrows
@@ -26,7 +29,7 @@ public class SimpleRequest {
         return SimpleRequest.builder()
                 .path(request.getRequestURI())
                 .method(request.getMethod())
-                .queryParams(request.getQueryString())
+                .queryParams(PathUtils.toQueryMap(request.getQueryString()))
                 .requestBody(request.getReader())
                 .build();
     }

@@ -8,6 +8,8 @@ import jakarta.ws.rs.HttpMethod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RestHttpDispatcherTest extends UnitTest {
@@ -58,5 +60,17 @@ class RestHttpDispatcherTest extends UnitTest {
         //then
         assertThat(response.getStatusCode()).isEqualTo(200);
         assertThat(response.getResponseBody()).isInstanceOf(Account.class);
+    }
+
+    @Test
+    void should_dispatch_with_query_param() {
+        //given
+        SimpleRequest request = SimpleRequest.builder().method(HttpMethod.GET).path("/shopping-cart?firstOne=true").build();
+        //when
+        SimpleResponse response = restHttpDispatcher.dispatch(request);
+        //then
+        assertThat(response.getStatusCode()).isEqualTo(200);
+        assertThat(response.getResponseBody()).isInstanceOf(List.class);
+        assertThat(response.getResponseBody()).asList().hasSize(1);
     }
 }

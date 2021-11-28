@@ -41,4 +41,14 @@ public class RestIntegrationTest extends BaseIntegrationTest {
                 .statusCode(404)
                 .body(Matchers.containsString("Path Not Found"));
     }
+
+    @Test
+    void should_handle_request_with_query_params() {
+        given()
+                .get("/shopping-cart?firstOne=true")
+                .then()
+                .statusCode(200)
+                .body("size", Matchers.is(1))
+                .body("[0].id", Matchers.is("1"));
+    }
 }
