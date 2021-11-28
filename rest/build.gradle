@@ -9,6 +9,16 @@ repositories {
     mavenCentral()
 }
 
+task fatJar(type: Jar) {
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    duplicatesStrategy(DuplicatesStrategy.WARN)
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
@@ -16,7 +26,7 @@ java {
 }
 
 dependencies {
-    implementation fileTree(dir:  'libs', includes: ['*.jar'])
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
     implementation 'org.projectlombok:lombok:1.18.20'
     implementation 'jakarta.ws.rs:jakarta.ws.rs-api:3.0.0'
     compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'

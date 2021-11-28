@@ -32,11 +32,13 @@ public class MethodParamUtils {
         if (parameter.isAnnotationPresent(PathParam.class)) {
             String paramName = parameter.getAnnotation(PathParam.class).value();
             String pathParam = PathUtils.getPathParam(paramName, request.getPath(), resourcePath);
-            return new ObjectMapper().readValue(pathParam, parameter.getType());
+            return String.class.equals(parameter.getType()) ? pathParam
+                    : new ObjectMapper().readValue(pathParam, parameter.getType());
         } else if (parameter.isAnnotationPresent(QueryParam.class)) {
             String paramName = parameter.getAnnotation(QueryParam.class).value();
-            String pathParam = PathUtils.getQueryParam(paramName, request.getQueryParams());
-            return new ObjectMapper().readValue(pathParam, parameter.getType());
+            String queryParam = PathUtils.getQueryParam(paramName, request.getQueryParams());
+            return String.class.equals(parameter.getType()) ? queryParam
+                    : new ObjectMapper().readValue(queryParam, parameter.getType());
         } else {
             return new ObjectMapper().readValue(request.getRequestReader(), parameter.getType());
         }
