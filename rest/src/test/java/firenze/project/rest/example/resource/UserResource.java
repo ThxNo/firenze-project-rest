@@ -8,6 +8,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 @Path("/users")
@@ -18,7 +19,8 @@ public class UserResource {
     }
 
     @POST
-    public void add() {
+    public void add(User user) {
+        System.out.println(MessageFormat.format("store user: {0}", user));
     }
 
     @Path("/{id}/account")

@@ -1,5 +1,6 @@
 package firenze.project.rest.integrationTest;
 
+import firenze.project.rest.example.domain.User;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -50,5 +51,14 @@ public class RestIntegrationTest extends BaseIntegrationTest {
                 .statusCode(200)
                 .body("size", Matchers.is(1))
                 .body("[0].id", Matchers.is("1"));
+    }
+
+    @Test
+    void should_handle_request_with_request_body() {
+        given()
+                .body(new User(1L, "user1"))
+                .post("/users")
+                .then()
+                .statusCode(200);
     }
 }

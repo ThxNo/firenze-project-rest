@@ -10,6 +10,8 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 
+import java.io.BufferedReader;
+import java.io.Reader;
 import java.util.Map;
 
 @Getter
@@ -22,7 +24,7 @@ public class SimpleRequest {
     private String path;
     private String method;
     private Map<String, String> queryParams;
-    private Object requestBody;
+    private BufferedReader requestReader;
 
     @SneakyThrows
     public static SimpleRequest of(HttpServletRequest request) {
@@ -30,7 +32,7 @@ public class SimpleRequest {
                 .path(request.getRequestURI())
                 .method(request.getMethod())
                 .queryParams(PathUtils.toQueryMap(request.getQueryString()))
-                .requestBody(request.getReader())
+                .requestReader(request.getReader())
                 .build();
     }
 }
